@@ -12,3 +12,13 @@ export interface Book {
     slug: string
     title: string
 }
+
+export function isBook(input: unknown): input is Book {
+    return typeof input === 'object' && input && 'downloads' in input
+        ? true
+        : false
+}
+
+export function isBookList(input: unknown): input is Book[] {
+    return Array.isArray(input) && input.every((item) => isBook(item))
+}

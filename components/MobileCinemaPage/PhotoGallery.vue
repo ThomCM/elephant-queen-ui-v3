@@ -48,12 +48,29 @@
 </template>
 
 <script setup lang="ts">
-const {
-    data: photos,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('photo-diary-entries')
+import { isPhotoDiaryEntryList } from '~/utils/dto/PhotoDiaryEntry'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/photo-diary-entries`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const photos = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isPhotoDiaryEntryList(data.value.data)
+        ? data.value.data
+        : null
+})
 
 const photoToViewInFullScreen = ref<string | null>(null)
 

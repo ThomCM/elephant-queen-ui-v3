@@ -29,14 +29,14 @@
                 ]"
             >
                 <li v-for="language in supportedLanguages" :key="`${language}`">
-                    <Radio :selected.sync="selectedLanguage" :value="language">
+                    <Radio v-model="selectedLanguage" :value="language">
                         {{ language }}
                     </Radio>
                 </li>
             </ul>
 
             <div class="mb-6">
-                <Checkbox :checked.sync="disclaimerChecked">
+                <Checkbox v-model="disclaimerChecked">
                     *All rights are reserved for Wild Inspiration Ltd and/or its
                     affiliated companies. Any use or download of materials from
                     this website may be made for non-commercial educational
@@ -110,18 +110,18 @@ async function getDownloadUrl() {
         return
     }
 
-    const { data, pending, error, refresh } = await useApiFetch(
-        `/downloads/${download.value.id}`
-    )
+    const data = await $fetch(`/downloads/${download.value.id}`).catch(onFail)
 
-    if (error) onFail()
-
-    downloadUrl.value = data
+    if (typeof data === 'string') {
+        downloadUrl.value = data
+    } else {
+        onFail()
+    }
 }
 
 function onFail() {
     alert(
-        'Sorry, there was an error getting the download link. Please refresh the page to retry..'
+        'Sorry, there was an error getting the download link. Please refresh the page to retry.'
     )
 }
 </script>

@@ -11,8 +11,8 @@
             :class="[
                 'flex items-center justify-between h-16 flex-shrink-0 xl:h-20',
             ]"
-            @mouseenter="onMouseenter"
-            @mouseleave="mouseover = false"
+            @mouseenter="onMouseEnter"
+            @mouseleave="onMouseLeave"
         >
             <NuxtLink
                 to="/"
@@ -66,8 +66,12 @@ watch(viewportWidth, () => {
     if (viewportWidth.value >= 1280) touchMenuVisible.value = false
 })
 
-function onMouseenter() {
+function onMouseEnter() {
     if (viewportWidth.value >= 1280) mouseover.value = true
+}
+
+function onMouseLeave() {
+    if (viewportWidth.value >= 1280) mouseover.value = false
 }
 
 function toggleTouchMenu() {

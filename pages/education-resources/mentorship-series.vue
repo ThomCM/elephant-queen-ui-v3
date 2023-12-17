@@ -14,7 +14,7 @@
         </div>
 
         <ul
-            v-if="!pending && !error"
+            v-if="interviewVideoCollection"
             :class="['grid grid-cols-1 gap-6 md:grid-cols-2']"
         >
             <li
@@ -49,13 +49,29 @@
 
 <script setup lang="ts">
 import type { Video } from '~/utils/dto/Video'
+import { isVideoCollection } from '~/utils/dto/VideoCollection'
 
-const {
-    data: interviewVideoCollection,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('/video-collections/mentorship-interviews')
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/video-collections/mentorship-interviews`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const interviewVideoCollection = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isVideoCollection(data.value.data)
+        ? data.value.data
+        : null
+})
 
 const videoToPlay = ref<Video | null>(null)
 </script>
@@ -69,67 +85,67 @@ const videoToPlay = ref<Video | null>(null)
     height: 167px;
 }
 
-@media screen and (min-width: 450px) {
+@media (min-width: 450px) {
     .video-list-item {
         height: 210px;
     }
 }
 
-@media screen and (min-width: 575px) {
+@media (min-width: 575px) {
     .video-list-item {
         height: 240px;
     }
 }
 
-@screen sm {
+@media (min-width: theme('screens.sm')) {
     .video-list-item {
         height: 270px;
     }
 }
 
-@media screen and (min-width: 700px) {
+@media (min-width: 700px) {
     .video-list-item {
         height: 300px;
     }
 }
 
-@screen md {
+@media (min-width: theme('screens.md')) {
     .video-list-item {
         height: 167px;
     }
 }
 
-@media screen and (min-width: 900px) {
+@media (min-width: 900px) {
     .video-list-item {
         height: 210px;
     }
 }
 
-@screen lg {
+@media (min-width: theme('screens.lg')) {
     .video-list-item {
         height: 240px;
     }
 }
 
-@media screen and (min-width: 1150px) {
+@media (min-width: 1150px) {
     .video-list-item {
         height: 280px;
     }
 }
 
-@screen xl {
+@media (min-width: theme('screens.xl')) {
     .video-list-item {
         height: 320px;
     }
 }
 
-@screen 2xl {
+@media (min-width: theme('screens.2xl')) {
     .video-list-item {
         height: 370px;
     }
 }
 
-@screen 3xl {
+@media (min-width: theme('screens.3xl')) {
     .video-list-item {
         height: 415px;
     }

@@ -10,3 +10,17 @@ export interface AudioCollection {
     name: string
     slug: string
 }
+
+export function isAudioCollection(input: unknown): input is AudioCollection {
+    return typeof input === 'object' && input && 'downloads' in input
+        ? true
+        : false
+}
+
+export function isAudioCollectionList(
+    input: unknown
+): input is AudioCollection[] {
+    return (
+        Array.isArray(input) && input.every((item) => isAudioCollection(item))
+    )
+}

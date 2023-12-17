@@ -3,12 +3,10 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ color?: 'black' | 'white' }>(), {
-    color: 'black',
-})
+const { color } = defineProps<{ color: 'black' | 'white' }>()
 
 const imgSrc = computed(() => {
-    return props.color === 'white'
+    return color === 'white'
         ? `brand/teq-white-logo.png`
         : `brand/teq-black-logo.png`
 })

@@ -4,11 +4,7 @@
             <h2>Videos</h2>
         </div>
 
-        <div
-            v-if="
-                !pending && !error && Array.isArray(videos) && videos.length > 0
-            "
-        >
+        <div v-if="videos">
             <Carousel>
                 <Slide v-for="(video, i) in videos" :key="`video-gallery-${i}`">
                     <div
@@ -19,6 +15,7 @@
                         <div class="max-h-full">
                             <div class="max-h-full relative">
                                 <img
+                                    v-if="video.image"
                                     class="max-h-full mx-auto rounded-xl"
                                     :src="video.image"
                                     :alt="video.title"
@@ -54,12 +51,29 @@
 </template>
 
 <script setup lang="ts">
-const {
-    data: videos,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('video-diary-entries')
+import { isVideoDiaryEntryList } from '~/utils/dto/VideoDiaryEntry'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/video-diary-entries`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const videos = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isVideoDiaryEntryList(data.value.data)
+        ? data.value.data
+        : null
+})
 
 const videoToPlay = ref<string | null>(null)
 

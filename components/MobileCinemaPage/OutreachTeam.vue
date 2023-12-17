@@ -5,10 +5,10 @@
         </div>
 
         <ul
-            v-if="!pending && !error"
+            v-if="teamMembers"
             :class="['grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4']"
         >
-            <li v-for="(member, i) in teamMembers" :key="`${_uid}-member-${i}`">
+            <li v-for="(member, i) in teamMembers" :key="`member-${i}`">
                 <img
                     class="rounded-xl w-full mb-3"
                     :src="member.image"
@@ -24,12 +24,29 @@
 </template>
 
 <script setup lang="ts">
-const {
-    data: teamMembers,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('team-members')
+import { isTeamMemberList } from '~/utils/dto/TeamMember'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/team-members`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const teamMembers = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isTeamMemberList(data.value.data)
+        ? data.value.data
+        : null
+})
 </script>
 
 <style scoped>

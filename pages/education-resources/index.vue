@@ -8,7 +8,7 @@
             <h1>Education Resources</h1>
         </div>
 
-        <div v-if="!pending && !error">
+        <div v-if="educationResources">
             <div
                 :class="[
                     '-content-mx content-px border-b border-gray py-6 xl:py-12',
@@ -47,12 +47,29 @@
 </template>
 
 <script setup lang="ts">
-const {
-    data: educationResources,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('education-resources')
+import { isEducationResources } from '~/utils/dto/EducationResources'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/education-resources`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const educationResources = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isEducationResources(data.value.data)
+        ? data.value.data
+        : null
+})
 </script>
 
 <style></style>

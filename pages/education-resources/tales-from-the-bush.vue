@@ -10,7 +10,7 @@
         </div>
 
         <ul
-            v-if="!pending && !error"
+            v-if="collection"
             :class="['grid grid-cols-2 gap-3 md:grid-cols-4 xl:gap-6']"
         >
             <li
@@ -56,13 +56,29 @@
 
 <script setup lang="ts">
 import type { Audio } from '~/utils/dto/Audio'
+import { isAudioCollection } from '~/utils/dto/AudioCollection'
 
-const {
-    data: collection,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('/audio-collections/tales-from-the-bush')
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/audio-collections/tales-from-the-bush`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const collection = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isAudioCollection(data.value.data)
+        ? data.value.data
+        : null
+})
 
 const audioToPlay = ref<Audio | null>(null)
 const taleFromTheBushWidth = ref(0)

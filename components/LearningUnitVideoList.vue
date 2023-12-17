@@ -53,7 +53,7 @@
                                     type="button"
                                     @click="videoIdToPlay = videoOption.id"
                                 >
-                                    <HeroiconOutlinePlay
+                                    <PlayIcon
                                         :class="['h-10 w-10 3xl:h-16 3xl:w-16']"
                                     />
                                 </button>
@@ -83,6 +83,7 @@
 </template>
 
 <script setup lang="ts">
+import { PlayIcon } from '@heroicons/vue/24/outline'
 import type { Video } from '~/utils/dto/Video'
 
 defineProps<{
@@ -109,7 +110,9 @@ const languageVideoOptions = computed(() => {
         },
     ]
 
-    return options.filter((n) => n.id) as { id: string; language: string }[]
+    return options.filter(
+        (n): n is { id: string; language: string } => typeof n.id === 'string'
+    )
 })
 
 watch(videoIdToPlay, (newValue, _oldValue) => {

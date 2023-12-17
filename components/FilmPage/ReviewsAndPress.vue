@@ -17,7 +17,29 @@
 </template>
 
 <script setup lang="ts">
-const { data: reviews, pending, error, refresh } = await useApiFetch('reviews')
+import { isReviewList } from '~/utils/dto/Review'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/reviews`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const reviews = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isReviewList(data.value.data)
+        ? data.value.data
+        : null
+})
 </script>
 
 <style></style>

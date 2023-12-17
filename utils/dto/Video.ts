@@ -13,3 +13,13 @@ export interface Video {
     youtube_id_maa: string
     youtube_id_swahili: string
 }
+
+export function isVideo(input: unknown): input is Video {
+    return typeof input === 'object' && input && 'downloads' in input
+        ? true
+        : false
+}
+
+export function isVideoList(input: unknown): input is Video[] {
+    return Array.isArray(input) && input.every((item) => isVideo(item))
+}

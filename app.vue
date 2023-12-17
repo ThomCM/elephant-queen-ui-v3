@@ -32,4 +32,12 @@ const mainMinHeight = useMainMinHeight()
     opacity: 0;
     filter: blur(1rem);
 }
+
+@media (min-width: theme('screens.3xl')) {
+    main {
+        max-width: 1920px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
 </style>

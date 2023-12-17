@@ -16,7 +16,7 @@
 
         <div class="hidden xl:flex xl:items-center xl:justify-between">
             <NuxtLink to="/">
-                <BrandLogo class="h-11" />
+                <BrandLogo class="h-11" color="black" />
             </NuxtLink>
 
             <FooterBestSellerFoundation />

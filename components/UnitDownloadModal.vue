@@ -16,7 +16,7 @@
                 ]"
             >
                 <li v-for="language in supportedLanguages" :key="`${language}`">
-                    <Radio :selected.sync="selectedLanguage" :value="language">
+                    <Radio v-model="selectedLanguage" :value="language">
                         {{ language }}
                     </Radio>
                 </li>
@@ -98,13 +98,13 @@ async function getDownloadUrl() {
         return
     }
 
-    const { data, pending, error, refresh } = await useApiFetch(
-        `/downloads/${download.value.id}`
-    )
+    const data = await $fetch(`/downloads/${download.value.id}`).catch(onFail)
 
-    if (error) onFail()
-
-    downloadUrl.value = data
+    if (typeof data === 'string') {
+        downloadUrl.value = data
+    } else {
+        onFail()
+    }
 }
 
 function onFail() {

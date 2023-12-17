@@ -32,8 +32,10 @@ const videos = ref<Video[]>([])
 
 onMounted(() => {
     units.forEach((unit) => {
-        if (unit.video_collection.videos.length > 0) {
-            videos.value.push(unit.video_collection.videos[0])
+        if (unit.video_collection) {
+            if (unit.video_collection.videos.length > 0) {
+                videos.value.push(unit.video_collection.videos[0])
+            }
         }
     })
 })

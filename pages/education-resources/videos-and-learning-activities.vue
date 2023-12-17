@@ -11,7 +11,7 @@
             </p>
         </div>
 
-        <ul v-if="!pending && !error">
+        <ul v-if="educationResources">
             <li
                 v-for="(unit, i) in educationResources.learning_units"
                 :key="`unit-${i}`"
@@ -87,14 +87,30 @@
 </template>
 
 <script setup lang="ts">
+import { isEducationResources } from '~/utils/dto/EducationResources'
 import type { LearningUnit } from '~/utils/dto/LearningUnit'
 
-const {
-    data: educationResources,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('education-resources')
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/education-resources`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const educationResources = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isEducationResources(data.value.data)
+        ? data.value.data
+        : null
+})
 
 const unitToDownload = ref<LearningUnit | null>(null)
 </script>

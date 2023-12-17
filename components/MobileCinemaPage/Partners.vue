@@ -33,19 +33,36 @@
 </template>
 
 <script setup lang="ts">
-const {
-    data: partners,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('partners')
+import { isPartnerList } from '~/utils/dto/Partner'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/partners`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const partners = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isPartnerList(data.value.data)
+        ? data.value.data
+        : null
+})
 
 const mainPartners = computed(() => {
-    return Array.isArray(partners) ? [...partners].slice(0, 4) : []
+    return isPartnerList(partners) ? [...partners].slice(0, 4) : []
 })
 
 const otherPartners = computed(() => {
-    return Array.isArray(partners) ? [...partners].slice(4) : []
+    return isPartnerList(partners) ? [...partners].slice(4) : []
 })
 </script>
 

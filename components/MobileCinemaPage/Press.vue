@@ -3,12 +3,7 @@
         <h2 class="mb-6 xl:mb-12">Press</h2>
 
         <ul
-            v-if="
-                !pending &&
-                !error &&
-                Array.isArray(pressItems) &&
-                pressItems.length > 0
-            "
+            v-if="pressItems"
             :class="['grid grid-cols-1 gap-6 xl:grid-cols-2']"
         >
             <li v-for="(pressItem, i) in pressItems" :key="`press-item-${i}`">
@@ -29,12 +24,29 @@
 </template>
 
 <script setup lang="ts">
-const {
-    data: pressItems,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('press-items')
+import { isPressItemList } from '~/utils/dto/PressItem'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/press-items`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const pressItems = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isPressItemList(data.value.data)
+        ? data.value.data
+        : null
+})
 </script>
 
 <style></style>

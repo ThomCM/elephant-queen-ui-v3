@@ -10,3 +10,13 @@ export interface BookCollection {
     name: string
     slug: string
 }
+
+export function isBookCollection(input: unknown): input is BookCollection {
+    return typeof input === 'object' && input && 'books' in input ? true : false
+}
+
+export function isBookCollectionList(
+    input: unknown
+): input is BookCollection[] {
+    return Array.isArray(input) && input.every((item) => isBookCollection(item))
+}

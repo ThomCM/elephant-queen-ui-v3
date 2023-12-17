@@ -6,5 +6,15 @@ export interface LearningUnit {
     image: string
     name: string
     slug: string
-    video_collection: VideoCollection
+    video_collection?: VideoCollection | null
+}
+
+export function isLearningUnit(input: unknown): input is LearningUnit {
+    return typeof input === 'object' && input && 'downloads' in input
+        ? true
+        : false
+}
+
+export function isLearningUnitList(input: unknown): input is LearningUnit[] {
+    return Array.isArray(input) && input.every((item) => isLearningUnit(item))
 }

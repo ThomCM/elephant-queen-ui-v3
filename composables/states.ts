@@ -57,7 +57,15 @@ export const useMainMinHeight = () => {
         const viewportHeight = useViewportHeight()
         const headerHeight = useHeaderHeight()
 
-        mainMinHeight.value = `${viewportHeight.value - headerHeight.value}px`
+        watch(
+            [viewportHeight, headerHeight],
+            () => {
+                mainMinHeight.value = `${
+                    viewportHeight.value - headerHeight.value
+                }px`
+            },
+            { immediate: true }
+        )
     }
 
     return mainMinHeight
@@ -69,9 +77,19 @@ export const useDevice = () => {
     if (process.client) {
         const viewportWidth = useViewportWidth()
 
-        if (viewportWidth.value >= 1280) device.value = 'desktop'
-        if (viewportWidth.value >= 768) device.value = 'tablet'
-        device.value = 'mobile'
+        watch(
+            viewportWidth,
+            () => {
+                if (viewportWidth.value >= 1280) {
+                    device.value = 'desktop'
+                } else if (viewportWidth.value >= 768) {
+                    device.value = 'tablet'
+                } else {
+                    device.value = 'mobile'
+                }
+            },
+            { immediate: true }
+        )
     }
 
     return device

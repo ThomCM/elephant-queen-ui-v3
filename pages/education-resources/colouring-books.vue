@@ -16,11 +16,15 @@
                     >
                         <Button
                             :color="
-                                readingLevel === 'Young Reader'
+                                fetchOptions.query.reading_level ===
+                                'Young Reader'
                                     ? 'blue'
                                     : 'black'
                             "
-                            :disabled="readingLevel === 'Young Reader'"
+                            :disabled="
+                                fetchOptions.query.reading_level ===
+                                'Young Reader'
+                            "
                         >
                             Young Reader
                         </Button>
@@ -35,11 +39,15 @@
                     >
                         <Button
                             :color="
-                                readingLevel === 'Confident Reader'
+                                fetchOptions.query.reading_level ===
+                                'Confident Reader'
                                     ? 'blue'
                                     : 'black'
                             "
-                            :disabled="readingLevel === 'Confident Reader'"
+                            :disabled="
+                                fetchOptions.query.reading_level ===
+                                'Confident Reader'
+                            "
                         >
                             Confident Reader
                         </Button>
@@ -60,32 +68,53 @@
 </template>
 
 <script setup lang="ts">
-import type { BookCollection } from '~/utils/dto/BookCollection'
+import { isBookCollectionList } from '~/utils/dto/BookCollection'
 
 const route = useRoute()
+const runtimeConfig = useRuntimeConfig()
 
-const collections = ref<BookCollection[] | null>(null)
+const fetchOptions = ref({
+    headers: {
+        Accept: 'application/json',
+    },
+    query: {
+        reading_level: 'Young Reader',
+        type: 'Colouring Book',
+    },
+})
 
-const readingLevel = ref<string>('Young Reader')
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/book-collections`,
+    fetchOptions.value
+)
 
-async function fetchBookCollections() {
-    readingLevel.value =
-        typeof route.query.reading_level === 'string'
-            ? route.query.reading_level
-            : 'Young Reader'
+const collections = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isBookCollectionList(data.value.data)
+        ? data.value.data
+        : null
+})
 
-    const { data, pending, error, refresh } = await useApiFetch(
-        'book-collections',
-        {
-            reading_level: encodeURIComponent(readingLevel.value),
-            type: encodeURIComponent('Colouring Book'),
+watch(
+    () => route.query,
+    () => {
+        const newReadingLevel =
+            typeof route.query.reading_level === 'string'
+                ? route.query.reading_level
+                : 'Young Reader'
+
+        if (fetchOptions.value.query.reading_level !== newReadingLevel) {
+            fetchOptions.value.query.reading_level = newReadingLevel
+
+            refresh()
         }
-    )
-
-    collections.value = data
-}
-
-watch(route, fetchBookCollections, { immediate: true })
+    },
+    { deep: true, immediate: true }
+)
 </script>
 
 <style></style>

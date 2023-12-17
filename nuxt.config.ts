@@ -19,6 +19,9 @@ export default defineNuxtConfig({
         pageTransition: { name: 'page', mode: 'out-in' },
     },
     css: ['~/assets/css/main.css'],
+    devServer: {
+        port: 1590,
+    },
     devtools: { enabled: true },
     modules: ['@nuxtjs/tailwindcss', 'vue3-carousel-nuxt'],
     runtimeConfig: {

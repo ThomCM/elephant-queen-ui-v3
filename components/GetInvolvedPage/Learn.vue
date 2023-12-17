@@ -11,7 +11,7 @@
         </div>
 
         <ul
-            v-if="!pending && !error"
+            v-if="conservationOrgs"
             :class="['grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6']"
         >
             <li v-for="(org, i) in conservationOrgs" :key="`org-${i}`">
@@ -24,12 +24,29 @@
 </template>
 
 <script setup lang="ts">
-const {
-    data: conservationOrgs,
-    pending,
-    error,
-    refresh,
-} = await useApiFetch('conservation-organisations')
+import { isConservationOrganisationList } from '~/utils/dto/ConvervationOrganisation'
+
+const runtimeConfig = useRuntimeConfig()
+
+const { data, pending, error, refresh } = await useFetch(
+    `${runtimeConfig.public.productionApiUrl}/conservation-organisations`,
+    {
+        headers: {
+            Accept: 'application/json',
+        },
+    }
+)
+
+const conservationOrgs = computed(() => {
+    return typeof data.value === 'object' &&
+        data.value &&
+        'data' in data.value &&
+        typeof data.value.data === 'object' &&
+        data.value.data &&
+        isConservationOrganisationList(data.value.data)
+        ? data.value.data
+        : null
+})
 </script>
 
 <style></style>

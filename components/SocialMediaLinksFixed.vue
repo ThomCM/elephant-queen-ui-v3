@@ -1,9 +1,5 @@
 <template>
-    <div
-        :class="[
-            'fixed left-0 top-1/2 transform -translate-y-1/2 flex flex-col',
-        ]"
-    >
+    <div :class="['fixed left-0 top-1/2 -translate-y-1/2 flex flex-col']">
         <a
             v-for="link in socialLinks"
             :key="`social-link-${link.site}`"
@@ -60,7 +56,7 @@ const socialLinks = ref([
 
 <style scoped>
 a > div {
-    display: hidden;
+    display: none;
 }
 
 a:hover > div {

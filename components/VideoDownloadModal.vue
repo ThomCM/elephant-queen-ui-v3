@@ -99,13 +99,13 @@ async function getDownloadUrl() {
         return
     }
 
-    const { data, pending, error, refresh } = await useApiFetch(
-        `/downloads/${download.value.id}`
-    )
+    const data = await $fetch(`/downloads/${download.value.id}`).catch(onFail)
 
-    if (error) onFail()
-
-    downloadUrl.value = data
+    if (typeof data === 'string') {
+        downloadUrl.value = data
+    } else {
+        onFail()
+    }
 }
 
 function onFail() {

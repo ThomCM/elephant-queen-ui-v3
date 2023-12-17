@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-const links = ref([
+const links = computed(() => [
     { label: 'The Film', to: '/film' },
     { label: 'Mobile Cinema', to: '/mobile-cinema' },
     { label: 'Education Resources', to: '/education-resources' },
