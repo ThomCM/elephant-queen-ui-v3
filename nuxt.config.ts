@@ -18,12 +18,13 @@ export default defineNuxtConfig({
         },
         pageTransition: { name: 'page', mode: 'out-in' },
     },
+    css: ['~/assets/css/main.css'],
     devtools: { enabled: true },
-    modules: ['@nuxtjs/tailwindcss'],
+    modules: ['@nuxtjs/tailwindcss', 'vue3-carousel-nuxt'],
     runtimeConfig: {
         public: {
-            devApiUrl: 'http://localhost/api',
-            localApiUrl: 'http://api-staging.elephant.co.ke/api',
+            localApiUrl: 'http://localhost/api',
+            devApiUrl: 'http://api-staging.elephant.co.ke/api',
             productionApiUrl: 'https://api.elephant.co.ke/api',
             doStorageUrl: 'https://teq.fra1.cdn.digitaloceanspaces.com',
         },

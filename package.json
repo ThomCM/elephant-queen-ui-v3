@@ -16,5 +16,11 @@
         "prettier": "3.1.1",
         "vue": "^3.3.10",
         "vue-router": "^4.2.5"
+    },
+    "dependencies": {
+        "@heroicons/vue": "^2.0.18",
+        "click-outside-vue3": "^4.0.1",
+        "vue3-carousel-nuxt": "^1.1.0",
+        "vue3-youtube": "^0.1.9"
     }
 }

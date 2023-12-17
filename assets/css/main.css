@@ -1,0 +1,92 @@
+html,
+body {
+    font-family: theme('fontFamily.museo-sans');
+    font-size: theme('fontSize.base');
+    font-weight: theme('fontWeight.medium');
+}
+
+h1 {
+    font-size: theme('fontSize.3xl');
+    font-weight: theme('fontWeight.light');
+}
+
+h2 {
+    font-size: theme('fontSize.2xl');
+    font-weight: theme('fontWeight.light');
+}
+
+h3 {
+    font-size: theme('fontSize.lg');
+    font-weight: theme('fontWeight.light');
+}
+
+small {
+    font-size: theme('fontSize.sm');
+    font-weight: theme('fontWeight.medium');
+}
+
+.text-link {
+    font-weight: 500;
+    color: theme('colors.blue.DEFAULT');
+}
+
+.content-px {
+    padding-left: theme('spacing.6');
+    padding-right: theme('spacing.6');
+}
+
+.-content-mx {
+    margin-left: calc(theme('spacing.6') * -1);
+    margin-right: calc(theme('spacing.6') * -1);
+}
+
+button:focus,
+input:focus,
+select:focus {
+    outline: none;
+}
+
+input,
+select {
+    border-width: theme('borderWidth.2');
+    border-color: theme('colors.gray.DEFAULT');
+    width: 100%;
+    border-radius: theme('borderRadius.xl');
+    padding-left: theme('spacing.6');
+    padding-right: theme('spacing.6');
+    padding-top: theme('spacing.3');
+    padding-bottom: theme('spacing.3');
+}
+
+@media (min-width: theme('screens.xl')) {
+    html,
+    body {
+        font-size: theme('fontSize.lg');
+    }
+
+    h1 {
+        font-size: theme('fontSize.5xl');
+    }
+
+    h2 {
+        font-size: theme('fontSize.4xl');
+    }
+
+    h3 {
+        font-size: theme('fontSize.xl');
+    }
+
+    small {
+        font-size: theme('fontSize.base');
+    }
+
+    .content-px {
+        padding-left: theme('spacing.12');
+        padding-right: theme('spacing.12');
+    }
+
+    .-content-mx {
+        margin-left: calc(theme('spacing.12') * -1);
+        margin-right: calc(theme('spacing.12') * -1);
+    }
+}
