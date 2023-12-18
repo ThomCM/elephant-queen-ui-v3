@@ -1,7 +1,7 @@
 <template>
     <div
         :style="{
-            backgroundImage: `url(${imgSrc})`,
+            backgroundImage: `url(${src.startsWith('http') ? src : imgSrc})`,
         }"
     >
         <slot></slot>
@@ -9,15 +9,14 @@
 </template>
 
 <script setup lang="ts">
-const { src } = defineProps<{ src: string }>()
+const props = defineProps<{ src: string }>()
+
 const runtimeConfig = useRuntimeConfig()
 
 const imgSrc = computed(() => {
-    return src.startsWith('http')
-        ? src
-        : src.startsWith('/')
-          ? runtimeConfig.public.doStorageUrl + src
-          : `${runtimeConfig.public.doStorageUrl}/${src}`
+    return props.src.startsWith('/')
+        ? runtimeConfig.public.doStorageUrl + props.src
+        : `${runtimeConfig.public.doStorageUrl}/${props.src}`
 })
 </script>
 

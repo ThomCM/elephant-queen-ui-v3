@@ -1,17 +1,22 @@
 <template>
-    <img :src="imgSrc" :alt="alt" />
+    <img
+        :src="src.startsWith('http') ? src : imgSrc"
+        :alt="alt"
+        :loading="loading"
+    />
 </template>
 
 <script setup lang="ts">
-const { src, alt } = defineProps<{ src: string; alt?: string }>()
+const props = withDefaults(
+    defineProps<{ src: string; alt?: string; loading?: 'eager' | 'lazy' }>(),
+    { loading: 'eager' }
+)
 
 const runtimeConfig = useRuntimeConfig()
 
 const imgSrc = computed(() => {
-    return src.startsWith('http')
-        ? src
-        : src.startsWith('/')
-          ? runtimeConfig.public.doStorageUrl + src
-          : `${runtimeConfig.public.doStorageUrl}/${src}`
+    return props.src.startsWith('/')
+        ? runtimeConfig.public.doStorageUrl + props.src
+        : `${runtimeConfig.public.doStorageUrl}/${props.src}`
 })
 </script>

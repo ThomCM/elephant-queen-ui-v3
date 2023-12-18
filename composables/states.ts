@@ -4,10 +4,12 @@ export const useViewportWidth = () => {
     const viewportWidth = useState<number>('viewportWidth', () => 0)
 
     if (process.client) {
-        viewportWidth.value = Math.max(
-            document.documentElement.clientWidth || 0,
-            window.innerWidth || 0
-        )
+        onMounted(() => {
+            viewportWidth.value = Math.max(
+                document.documentElement.clientWidth || 0,
+                window.innerWidth || 0
+            )
+        })
     }
 
     return viewportWidth
@@ -17,10 +19,12 @@ export const useViewportHeight = () => {
     const viewportHeight = useState<number>('viewportHeight', () => 0)
 
     if (process.client) {
-        viewportHeight.value = Math.max(
-            document.documentElement.clientHeight || 0,
-            window.innerHeight || 0
-        )
+        onMounted(() => {
+            viewportHeight.value = Math.max(
+                document.documentElement.clientHeight || 0,
+                window.innerHeight || 0
+            )
+        })
     }
 
     return viewportHeight
@@ -30,9 +34,12 @@ export const useFooterHeight = () => {
     const footerHeight = useState<number>('footerHeight', () => 0)
 
     if (process.client) {
-        const footers = document.getElementsByTagName('footer')
+        onMounted(() => {
+            const footers = document.getElementsByTagName('footer')
 
-        footerHeight.value = footers.length > 0 ? footers[0].clientHeight : 0
+            footerHeight.value =
+                footers.length > 0 ? footers[0].clientHeight : 0
+        })
     }
 
     return footerHeight
@@ -42,9 +49,12 @@ export const useHeaderHeight = () => {
     const headerHeight = useState<number>('headerHeight', () => 0)
 
     if (process.client) {
-        const headers = document.getElementsByTagName('header')
+        onMounted(() => {
+            const headers = document.getElementsByTagName('header')
 
-        headerHeight.value = headers.length > 0 ? headers[0].clientHeight : 0
+            headerHeight.value =
+                headers.length > 0 ? headers[0].clientHeight : 0
+        })
     }
 
     return headerHeight

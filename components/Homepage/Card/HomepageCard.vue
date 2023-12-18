@@ -7,7 +7,7 @@
             'bg-cover bg-no-repeat text-white flex items-end text-center px-9 py-12 md:rounded-xl md:items-center xl:px-24',
             bgPosition,
         ]"
-        :src="`home_page/${background}_${device}.jpg`"
+        :src="bgImg"
     >
         <div>
             <slot></slot>
@@ -23,18 +23,12 @@ const props = withDefaults(
     }
 )
 
-const mobileSectionHeight = ref(`667px`)
-
 const mainMinHeight = useMainMinHeight()
-
 const viewportWidth = useViewportWidth()
+const device = useDevice()
 
-const device = computed(() => {
-    if (viewportWidth.value >= 1280) return 'desktop'
-
-    if (viewportWidth.value >= 768) return 'tablet'
-
-    return 'mobile'
+const bgImg = computed(() => {
+    return `home_page/${props.background}_${device.value}.jpg`
 })
 
 const sectionHeight = computed(() => {
@@ -42,13 +36,7 @@ const sectionHeight = computed(() => {
 
     if (viewportWidth.value >= 768) return '356px'
 
-    return mobileSectionHeight.value
-})
-
-onMounted(() => {
-    if (process.client) {
-        mobileSectionHeight.value = mainMinHeight.value
-    }
+    return mainMinHeight.value === '90vh' ? '667px' : mainMinHeight.value
 })
 </script>
 

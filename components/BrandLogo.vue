@@ -3,10 +3,10 @@
 </template>
 
 <script setup lang="ts">
-const { color } = defineProps<{ color: 'black' | 'white' }>()
+const props = defineProps<{ color: 'black' | 'white' }>()
 
 const imgSrc = computed(() => {
-    return color === 'white'
+    return props.color === 'white'
         ? `brand/teq-white-logo.png`
         : `brand/teq-black-logo.png`
 })
