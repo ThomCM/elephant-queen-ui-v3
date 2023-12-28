@@ -98,19 +98,25 @@ watch(supportedLanguages, () => {
     }
 })
 
-watch(selectedLanguage, () => {
+watch([disclaimerChecked, selectedLanguage], () => {
     getDownloadUrl()
 })
 
+const runtimeConfig = useRuntimeConfig()
+
 async function getDownloadUrl() {
     downloadUrl.value = null
+
+    if (!disclaimerChecked.value) return
 
     if (!download.value?.id) {
         onFail()
         return
     }
 
-    const data = await $fetch(`/downloads/${download.value.id}`).catch(onFail)
+    const data = await $fetch(
+        `${runtimeConfig.public.productionApiUrl}/downloads/${download.value.id}`
+    ).catch(onFail)
 
     if (typeof data === 'string') {
         downloadUrl.value = data

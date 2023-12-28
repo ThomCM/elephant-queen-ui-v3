@@ -128,7 +128,7 @@ const supportedLanguages = computed(() =>
     )
 )
 
-watch(selectedLanguage, () => {
+watch([disclaimerChecked, selectedLanguage], () => {
     getDownloadUrl('book')
     getDownloadUrl('collection')
 })
@@ -154,6 +154,8 @@ function onFail() {
     )
 }
 
+const runtimeConfig = useRuntimeConfig()
+
 async function getDownloadUrl(type: string) {
     let downloadId = null
 
@@ -165,12 +167,16 @@ async function getDownloadUrl(type: string) {
         downloadId = collectionDownload.value?.id
     }
 
+    if (!disclaimerChecked.value) return
+
     if (!downloadId) {
         onFail()
         return
     }
 
-    const data = await $fetch(`/downloads/${downloadId}`).catch(onFail)
+    const data = await $fetch(
+        `${runtimeConfig.public.productionApiUrl}/downloads/${downloadId}`
+    ).catch(onFail)
 
     if (typeof data === 'string') {
         if (type === 'book') {

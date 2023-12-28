@@ -106,9 +106,7 @@ export const useDevice = () => {
 }
 
 export const useAuthorised = () => {
-    const authorised = useState<boolean>('authorised', () => false)
-
-    return authorised
+    return useState<boolean>('authorised', () => false)
 }
 
 export const useFullMenu = () => {

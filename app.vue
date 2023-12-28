@@ -20,6 +20,44 @@
 <script setup lang="ts">
 const headerHeight = useHeaderHeight()
 const mainMinHeight = useMainMinHeight()
+const authorised = useAuthorised()
+const runtimeConfig = useRuntimeConfig()
+
+const locationData = ref<{
+    ip_address: string
+    location: string
+    valid: boolean
+    whitelisted_ip_address: boolean
+} | null>(null)
+
+const locationError = ref<any>(null)
+
+onMounted(() => {
+    if (process.client) {
+        fetchLocationData()
+    }
+})
+
+async function fetchLocationData() {
+    try {
+        locationData.value = await $fetch(
+            `${runtimeConfig.public.productionApiUrl}/user-location`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
+    } catch (error) {
+        locationError.value = error
+    }
+}
+
+watch(locationData, () => {
+    authorised.value = locationData.value
+        ? locationData.value.valid || locationData.value.whitelisted_ip_address
+        : false
+})
 </script>
 
 <style>
