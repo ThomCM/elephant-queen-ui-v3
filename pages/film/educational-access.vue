@@ -339,6 +339,7 @@ async function onSubmit() {
 function onFail(err: ApiError) {
     console.log('err')
     console.log(err)
+    console.log(err.response || 'null')
     alert('There were errors with your submission. Please check the form.')
 }
 
