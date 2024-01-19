@@ -317,7 +317,7 @@ onMounted(() => {
 })
 
 async function onSubmit() {
-    await $fetch(
+    const response = await $fetch(
         `${runtimeConfig.public.productionApiUrl}/educational-access-application`,
         {
             method: 'POST',
@@ -325,11 +325,13 @@ async function onSubmit() {
         }
     ).catch(onFail)
 
-    alert(
-        'Success, your request has been submitted. We will get back to you as soon as possible.'
-    )
+    console.log(response)
 
-    resetForm()
+    // alert(
+    //     'Success, your request has been submitted. We will get back to you as soon as possible.'
+    // )
+
+    // resetForm()
 }
 
 function onFail() {
