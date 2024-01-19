@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { apiErrorStateKey } from '~/utils/states/ApiError'
-import { snakeCase } from 'lodash'
 
 const { label, tip } = defineProps<{
     label?: string | null
@@ -23,7 +22,15 @@ const { label, tip } = defineProps<{
 
 const apiFailure = inject(apiErrorStateKey, ref())
 
-const apiErrorKey = computed(() => (label ? snakeCase(label) : null))
+const apiErrorKey = computed(() => {
+    return label
+        ? label
+              .toLowerCase()
+              .replace(/[^a-z0-9]/gi, ' ')
+              .trim()
+              .replace(/\s+/g, '_')
+        : null
+})
 
 const errorMessage = computed(() => {
     if (apiFailure.value === undefined) return null
