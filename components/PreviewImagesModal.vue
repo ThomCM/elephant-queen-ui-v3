@@ -5,7 +5,7 @@
         </div>
 
         <div>
-            <Carousel>
+            <Carousel :autoplay="2500">
                 <Slide
                     v-for="(img, i) in images"
                     :key="`image-${i}`"
@@ -13,6 +13,10 @@
                 >
                     <img class="mx-auto xl:h-80" :src="img.url" />
                 </Slide>
+
+                <template #addons>
+                    <Pagination />
+                </template>
             </Carousel>
         </div>
     </Modal>
