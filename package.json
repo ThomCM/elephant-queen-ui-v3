@@ -21,6 +21,7 @@
     "dependencies": {
         "@heroicons/vue": "^2.0.18",
         "click-outside-vue3": "^4.0.1",
+        "lodash": "^4.17.21",
         "vue3-carousel-nuxt": "^1.1.0",
         "vue3-youtube": "^0.1.9"
     }
