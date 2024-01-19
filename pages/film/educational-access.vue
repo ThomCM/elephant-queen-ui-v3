@@ -284,21 +284,18 @@ async function onSubmit() {
 
     sending.value = false
 
-    console.log('response')
-    console.log(response)
+    if (response) {
+        alert(
+            'Success, your request has been submitted. We will get back to you as soon as possible.'
+        )
 
-    // alert(
-    //     'Success, your request has been submitted. We will get back to you as soon as possible.'
-    // )
-
-    // resetForm()
+        resetForm()
+    }
 }
 
 function onFail(err: ApiError) {
     errors.value = err
-    console.log('err')
-    console.log(err)
-    console.log(err.response || 'null')
+
     alert('There were errors with your submission. Please check the form.')
 }
 
