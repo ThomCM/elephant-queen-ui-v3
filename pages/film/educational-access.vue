@@ -10,10 +10,7 @@
 
         <div class="md:max-w-lg md:mx-auto">
             <form @submit.prevent="onSubmit" class="grid grid-cols-1 gap-y-6">
-                <FormField
-                    label="Organisation Name"
-                    :errors="errors.organisation_name || []"
-                >
+                <FormField label="Organisation Name">
                     <input
                         type="text"
                         required
@@ -21,10 +18,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Organisation Address"
-                    :errors="errors.organisation_address || []"
-                >
+                <FormField label="Organisation Address">
                     <input
                         type="text"
                         required
@@ -32,10 +26,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Organisation Phone Number"
-                    :errors="errors.organisation_phone || []"
-                >
+                <FormField label="Organisation Phone Number">
                     <input
                         type="tel"
                         required
@@ -43,10 +34,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Organisation Email"
-                    :errors="errors.organisation_email || []"
-                >
+                <FormField label="Organisation Email">
                     <input
                         type="email"
                         required
@@ -54,24 +42,15 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Contact Name"
-                    :errors="errors.contact_name || []"
-                >
+                <FormField label="Contact Name">
                     <input type="text" required v-model="form.contact_name" />
                 </FormField>
 
-                <FormField
-                    label="Contact Email"
-                    :errors="errors.contact_email || []"
-                >
+                <FormField label="Contact Email">
                     <input type="email" required v-model="form.contact_email" />
                 </FormField>
 
-                <FormField
-                    label="Contact Email (Confirm)"
-                    :errors="errors.contact_email_confirm || []"
-                >
+                <FormField label="Contact Email (Confirm)">
                     <input
                         type="email"
                         required
@@ -79,23 +58,16 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Contact Role"
-                    :errors="errors.contact_role || []"
-                >
+                <FormField label="Contact Role">
                     <input type="text" required v-model="form.contact_role" />
                 </FormField>
 
-                <FormField
-                    label="Contact Phone"
-                    :errors="errors.contact_phone || []"
-                >
+                <FormField label="Contact Phone">
                     <input type="tel" required v-model="form.contact_phone" />
                 </FormField>
 
                 <FormField
                     label="Screening Purpose"
-                    :errors="errors.screening_purpose || []"
                     tip="Only non-commercial education and conservation"
                 >
                     <input
@@ -105,10 +77,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Screening Location"
-                    :errors="errors.screening_location || []"
-                >
+                <FormField label="Screening Location">
                     <input
                         type="text"
                         required
@@ -116,11 +85,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    v-if="minScreeningDate"
-                    label="Screening Date"
-                    :errors="errors.screening_date || []"
-                >
+                <FormField v-if="minScreeningDate" label="Screening Date">
                     <input
                         type="date"
                         required
@@ -129,10 +94,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Screening Audience Age Range"
-                    :errors="errors.screening_audience_age_range || []"
-                >
+                <FormField label="Screening Audience Age Range">
                     <input
                         type="text"
                         required
@@ -140,10 +102,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Screening Audience Size"
-                    :errors="errors.screening_audience_size || []"
-                >
+                <FormField label="Screening Audience Size">
                     <input
                         type="number"
                         required
@@ -151,10 +110,7 @@
                     />
                 </FormField>
 
-                <FormField
-                    label="Screening Language"
-                    :errors="errors.screening_language || []"
-                >
+                <FormField label="Screening Language">
                     <select required v-model="form.screening_language">
                         <option value="English">English</option>
                         <option value="Kiswahili">Kiswahili</option>
@@ -164,7 +120,6 @@
 
                 <FormField
                     label="Film Link Recipient Email"
-                    :errors="errors.film_link_recipient_email || []"
                     tip="This must be the same individual as named above and who signs this form below"
                 >
                     <input
@@ -181,9 +136,7 @@
                     education and conservation purposes.
                 </p>
 
-                <FormField
-                    :errors="errors.download_prohibition_acceptance || []"
-                >
+                <FormField>
                     <div
                         class="flex items-center cursor-pointer"
                         @click="
@@ -210,9 +163,7 @@
                     </div>
                 </FormField>
 
-                <FormField
-                    :errors="errors.liability_understood_acceptance || []"
-                >
+                <FormField>
                     <div
                         class="flex items-center cursor-pointer"
                         @click="
@@ -255,6 +206,7 @@
 <script setup lang="ts">
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import type ApiError from '@/utils/dto/ApiError'
+import { apiErrorStateKey } from '@/utils/states/ApiError'
 
 useHead({
     title: 'The Elephant Queen: Educational Access',
@@ -268,7 +220,6 @@ useHead({
 
 const runtimeConfig = useRuntimeConfig()
 
-const errors = ref<Record<string, string[]>>({})
 const sending = ref(false)
 const form = reactive<{
     organisation_name: string | null
@@ -317,7 +268,12 @@ onMounted(() => {
     minScreeningDate.value = newMinScreeningDate.toISOString().split('T')[0]
 })
 
+const errors = ref<ApiError>()
+provide(apiErrorStateKey, errors)
+
 async function onSubmit() {
+    sending.value = true
+
     const response = await $fetch(
         `${runtimeConfig.public.productionApiUrl}/educational-access-application`,
         {
@@ -325,6 +281,8 @@ async function onSubmit() {
             body: form,
         }
     ).catch(onFail)
+
+    sending.value = false
 
     console.log('response')
     console.log(response)
@@ -337,6 +295,7 @@ async function onSubmit() {
 }
 
 function onFail(err: ApiError) {
+    errors.value = err
     console.log('err')
     console.log(err)
     console.log(err.response || 'null')

@@ -1,5 +1,5 @@
 <template>
-    <div :class="['form-field', { invalid: errors && errors.length > 0 }]">
+    <div :class="['form-field', { invalid: errorMessage }]">
         <label v-if="label" class="mb-1 font-bold">
             {{ label }}
         </label>
@@ -13,23 +13,34 @@
 </template>
 
 <script setup lang="ts">
-const { errors, label, tip } = withDefaults(
-    defineProps<{
-        errors?: string[] | null
-        label?: string | null
-        tip?: string | null
-    }>(),
-    {
-        errors: () => [],
-    }
-)
+import { apiErrorStateKey } from '~/utils/states/ApiError'
+import { snakeCase } from 'lodash'
+
+const { label, tip } = defineProps<{
+    label?: string | null
+    tip?: string | null
+}>()
+
+const apiFailure = inject(apiErrorStateKey, ref())
+
+const apiErrorKey = computed(() => (label ? snakeCase(label) : null))
+
+const errorMessage = computed(() => {
+    if (apiFailure.value === undefined) return null
+
+    if (apiErrorKey.value === null) return null
+
+    if (apiFailure.value.response === undefined) return null
+
+    if (apiFailure.value.response._data === undefined) return null
+
+    return apiFailure.value.response._data.hasOwnProperty(apiErrorKey.value)
+        ? apiFailure.value.response._data[apiErrorKey.value].join(', ')
+        : null
+})
 
 const message = computed(() => {
-    if (!Array.isArray(errors)) return null
-
-    if (errors.length === 0 && !tip) return null
-
-    return errors.length > 0 ? errors.join(' ') : tip
+    return errorMessage.value ? errorMessage.value : tip ? tip : null
 })
 </script>
 
