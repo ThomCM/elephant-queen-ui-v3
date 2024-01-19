@@ -35,6 +35,16 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: The Film',
+    meta: [
+        {
+            name: 'description',
+            content: 'Availabile in English, Kiswahili & Maa',
+        },
+    ],
+})
+
 const device = useDevice()
 </script>
 

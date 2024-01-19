@@ -47,6 +47,17 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: Education Resources',
+    meta: [
+        {
+            name: 'description',
+            content:
+                'Colouring Books, Story Books, Tales from the Bush & More...',
+        },
+    ],
+})
+
 import { isEducationResources } from '~/utils/dto/EducationResources'
 
 const runtimeConfig = useRuntimeConfig()

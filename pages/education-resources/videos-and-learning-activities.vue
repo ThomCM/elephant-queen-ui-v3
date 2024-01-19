@@ -87,6 +87,16 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: Videos & Learning Activities',
+    meta: [
+        {
+            name: 'description',
+            content: 'Videos & Learning Activities',
+        },
+    ],
+})
+
 import { isEducationResources } from '~/utils/dto/EducationResources'
 import type { LearningUnit } from '~/utils/dto/LearningUnit'
 

@@ -31,3 +31,16 @@
         />
     </div>
 </template>
+
+<script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: Get Involved',
+    meta: [
+        {
+            name: 'description',
+            content:
+                'Follow our journey, join us at a Mobile Cinema screening and spread the word.',
+        },
+    ],
+})
+</script>

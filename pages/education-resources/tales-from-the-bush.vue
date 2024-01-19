@@ -55,6 +55,16 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: Tales from the Bush',
+    meta: [
+        {
+            name: 'description',
+            content: 'Tales from the Bush',
+        },
+    ],
+})
+
 import type { Audio } from '~/utils/dto/Audio'
 import { isAudioCollection } from '~/utils/dto/AudioCollection'
 

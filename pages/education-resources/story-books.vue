@@ -68,6 +68,16 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: Story Books',
+    meta: [
+        {
+            name: 'description',
+            content: 'Story Books',
+        },
+    ],
+})
+
 import { isBookCollectionList } from '~/utils/dto/BookCollection'
 
 const route = useRoute()

@@ -253,6 +253,18 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: Educational Access',
+    meta: [
+        {
+            name: 'description',
+            content: 'Submit your request for educational access here.',
+        },
+    ],
+})
+
+const runtimeConfig = useRuntimeConfig()
+
 const errors = ref<Record<string, string[]>>({})
 const sending = ref(false)
 const form = reactive<{
@@ -302,26 +314,24 @@ onMounted(() => {
     minScreeningDate.value = newMinScreeningDate.toISOString().split('T')[0]
 })
 
-function onSubmit() {
-    // TODO
-    //             this.sending = true;
-    //             try {
-    //                 const response = await this.$axios.$post(
-    //                     '/educational-access-application',
-    //                     this.form
-    //                 );
-    //                 this.sending = false;
-    //                 this.resetForm();
-    //                 alert(
-    //                     'Success, your request has been submitted. We will get back to you as soon as possible.'
-    //                 );
-    //             } catch (error) {
-    //                 this.sending = false;
-    //                 this.errors = error.response.data;
-    //                 alert(
-    //                     'There were errors with your submission. Please check the form.'
-    //                 );
-    //             }
+async function onSubmit() {
+    await $fetch(
+        `${runtimeConfig.public.productionApiUrl}/educational-access-application`,
+        {
+            method: 'POST',
+            body: form,
+        }
+    ).catch(onFail)
+
+    alert(
+        'Success, your request has been submitted. We will get back to you as soon as possible.'
+    )
+
+    resetForm()
+}
+
+function onFail() {
+    alert('There were errors with your submission. Please check the form.')
 }
 
 function resetForm() {

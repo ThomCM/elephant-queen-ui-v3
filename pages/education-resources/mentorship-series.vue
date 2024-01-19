@@ -48,6 +48,16 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+    title: 'The Elephant Queen: Mentorship Series',
+    meta: [
+        {
+            name: 'description',
+            content: 'Mentorship Series',
+        },
+    ],
+})
+
 import type { Video } from '~/utils/dto/Video'
 import { isVideoCollection } from '~/utils/dto/VideoCollection'
 
