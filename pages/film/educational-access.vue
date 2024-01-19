@@ -254,6 +254,7 @@
 
 <script setup lang="ts">
 import { XMarkIcon } from '@heroicons/vue/24/outline'
+import type ApiError from '@/utils/dto/ApiError'
 
 useHead({
     title: 'The Elephant Queen: Educational Access',
@@ -325,6 +326,7 @@ async function onSubmit() {
         }
     ).catch(onFail)
 
+    console.log('response')
     console.log(response)
 
     // alert(
@@ -334,7 +336,9 @@ async function onSubmit() {
     // resetForm()
 }
 
-function onFail() {
+function onFail(err: ApiError) {
+    console.log('err')
+    console.log(err)
     alert('There were errors with your submission. Please check the form.')
 }
 
