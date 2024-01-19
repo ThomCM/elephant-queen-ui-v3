@@ -196,7 +196,7 @@
                                 'border-2 border-black h-8 w-8 flex-shrink-0 flex items-center justify-center mr-6',
                             ]"
                         >
-                            <HeroiconOutlineX
+                            <XMarkIcon
                                 v-show="form.download_prohibition_acceptance"
                                 class="h-6 w-6"
                             />
@@ -225,7 +225,7 @@
                                 'border-2 border-black h-8 w-8 flex-shrink-0 flex items-center justify-center mr-6',
                             ]"
                         >
-                            <HeroiconOutlineX
+                            <XMarkIcon
                                 v-show="form.liability_understood_acceptance"
                                 class="h-6 w-6"
                             />
@@ -253,6 +253,8 @@
 </template>
 
 <script setup lang="ts">
+import { XMarkIcon } from '@heroicons/vue/24/outline'
+
 useHead({
     title: 'The Elephant Queen: Educational Access',
     meta: [
