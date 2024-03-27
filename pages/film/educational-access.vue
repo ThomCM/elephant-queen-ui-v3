@@ -275,7 +275,7 @@ async function onSubmit() {
     sending.value = true
 
     const response = await $fetch(
-        `${runtimeConfig.public.productionApiUrl}/educational-access-application`,
+        `${runtimeConfig.public.apiUrl}/educational-access-application`,
         {
             method: 'POST',
             body: form,

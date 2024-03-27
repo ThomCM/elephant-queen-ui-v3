@@ -98,7 +98,7 @@ import { isPhotoDiaryEntryList } from '~/utils/dto/PhotoDiaryEntry'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/photo-diary-entries`,
+    `${runtimeConfig.public.apiUrl}/photo-diary-entries`,
     {
         headers: {
             Accept: 'application/json',

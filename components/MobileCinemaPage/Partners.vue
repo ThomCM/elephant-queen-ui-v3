@@ -38,7 +38,7 @@ import { isPartnerList } from '~/utils/dto/Partner'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/partners`,
+    `${runtimeConfig.public.apiUrl}/partners`,
     {
         headers: {
             Accept: 'application/json',
@@ -50,19 +50,17 @@ const partners = computed(() => {
     return typeof data.value === 'object' &&
         data.value &&
         'data' in data.value &&
-        typeof data.value.data === 'object' &&
-        data.value.data &&
         isPartnerList(data.value.data)
         ? data.value.data
         : null
 })
 
 const mainPartners = computed(() => {
-    return isPartnerList(partners) ? [...partners].slice(0, 4) : []
+    return isPartnerList(partners.value) ? [...partners.value].slice(0, 4) : []
 })
 
 const otherPartners = computed(() => {
-    return isPartnerList(partners) ? [...partners].slice(4) : []
+    return isPartnerList(partners.value) ? [...partners.value].slice(4) : []
 })
 </script>
 

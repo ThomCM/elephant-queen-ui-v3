@@ -119,7 +119,7 @@ import {
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/video-diary-entries`,
+    `${runtimeConfig.public.apiUrl}/video-diary-entries`,
     {
         headers: {
             Accept: 'application/json',

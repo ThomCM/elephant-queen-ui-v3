@@ -29,7 +29,7 @@ import { isConservationOrganisationList } from '~/utils/dto/ConvervationOrganisa
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/conservation-organisations`,
+    `${runtimeConfig.public.apiUrl}/conservation-organisations`,
     {
         headers: {
             Accept: 'application/json',

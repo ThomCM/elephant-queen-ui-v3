@@ -94,7 +94,7 @@ const fetchOptions = ref({
 })
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/book-collections`,
+    `${runtimeConfig.public.apiUrl}/book-collections`,
     fetchOptions.value
 )
 

@@ -41,7 +41,7 @@ onMounted(() => {
 async function fetchLocationData() {
     try {
         locationData.value = await $fetch(
-            `${runtimeConfig.public.productionApiUrl}/user-location`,
+            `${runtimeConfig.public.apiUrl}/user-location`,
             {
                 headers: {
                     Accept: 'application/json',

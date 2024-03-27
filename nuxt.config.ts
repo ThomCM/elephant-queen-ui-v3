@@ -26,10 +26,8 @@ export default defineNuxtConfig({
     modules: ['@nuxtjs/tailwindcss', 'vue3-carousel-nuxt'],
     runtimeConfig: {
         public: {
-            localApiUrl: 'http://localhost/api',
-            devApiUrl: 'http://api-staging.elephant.co.ke/api',
-            productionApiUrl: 'https://api.elephant.co.ke/api',
-            doStorageUrl: 'https://teq.fra1.cdn.digitaloceanspaces.com',
+            apiUrl: process.env.API_URL,
+            doStorageUrl: process.env.STORAGE_URL,
         },
     },
 })

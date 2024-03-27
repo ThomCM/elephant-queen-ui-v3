@@ -29,7 +29,7 @@ import { isPressItemList } from '~/utils/dto/PressItem'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/press-items`,
+    `${runtimeConfig.public.apiUrl}/press-items`,
     {
         headers: {
             Accept: 'application/json',

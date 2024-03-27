@@ -64,7 +64,7 @@ import { isVideoCollection } from '~/utils/dto/VideoCollection'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/video-collections/mentorship-interviews`,
+    `${runtimeConfig.public.apiUrl}/video-collections/mentorship-interviews`,
     {
         headers: {
             Accept: 'application/json',

@@ -29,7 +29,7 @@ import { isTeamMemberList } from '~/utils/dto/TeamMember'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/team-members`,
+    `${runtimeConfig.public.apiUrl}/team-members`,
     {
         headers: {
             Accept: 'application/json',

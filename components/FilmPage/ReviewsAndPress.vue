@@ -22,7 +22,7 @@ import { isReviewList } from '~/utils/dto/Review'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/reviews`,
+    `${runtimeConfig.public.apiUrl}/reviews`,
     {
         headers: {
             Accept: 'application/json',

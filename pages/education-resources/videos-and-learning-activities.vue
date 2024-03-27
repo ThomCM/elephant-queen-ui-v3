@@ -103,7 +103,7 @@ import type { LearningUnit } from '~/utils/dto/LearningUnit'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/education-resources`,
+    `${runtimeConfig.public.apiUrl}/education-resources`,
     {
         headers: {
             Accept: 'application/json',

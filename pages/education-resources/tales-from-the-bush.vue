@@ -71,7 +71,7 @@ import { isAudioCollection } from '~/utils/dto/AudioCollection'
 const runtimeConfig = useRuntimeConfig()
 
 const { data, pending, error, refresh } = await useFetch(
-    `${runtimeConfig.public.productionApiUrl}/audio-collections/tales-from-the-bush`,
+    `${runtimeConfig.public.apiUrl}/audio-collections/tales-from-the-bush`,
     {
         headers: {
             Accept: 'application/json',

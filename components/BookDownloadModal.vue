@@ -175,7 +175,7 @@ async function getDownloadUrl(type: string) {
     }
 
     const data = await $fetch(
-        `${runtimeConfig.public.productionApiUrl}/downloads/${downloadId}`
+        `${runtimeConfig.public.apiUrl}/downloads/${downloadId}`
     ).catch(onFail)
 
     if (typeof data === 'string') {
